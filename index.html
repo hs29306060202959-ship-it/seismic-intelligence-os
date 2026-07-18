@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aether Seismic — Intelligence OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root { --bg:#07090d; --panel:#0e131a; --line:#1e2733; --text:#e8edf4; --muted:#8b98a9; --amber:#f5a524; --cyan:#38bdf8; }
+  * { box-sizing:border-box; }
+  body { margin:0; min-height:100vh; background:radial-gradient(1200px 600px at 70% -10%, #101826 0%, var(--bg) 60%); color:var(--text); font-family:"Geist",system-ui,sans-serif; }
+  .wrap { max-width:1100px; margin:0 auto; padding:64px 24px 80px; }
+  .kicker { font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--amber); }
+  h1 { font-size:clamp(32px,5vw,52px); font-weight:700; margin:12px 0 8px; letter-spacing:-.02em; }
+  .sub { color:var(--muted); font-size:16px; max-width:560px; line-height:1.6; }
+  .grid { margin-top:44px; display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; }
+  a.card { display:block; text-decoration:none; color:inherit; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:22px; transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  a.card:hover { transform:translateY(-3px); border-color:var(--amber); box-shadow:0 12px 40px -12px rgba(245,165,36,.25); }
+  .num { font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--cyan); }
+  .card h2 { font-size:19px; margin:10px 0 6px; font-weight:600; }
+  .card p { margin:0; color:var(--muted); font-size:14px; line-height:1.55; }
+  .tag { display:inline-block; margin-top:14px; font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--muted); border:1px solid var(--line); border-radius:999px; padding:3px 10px; }
+  footer { margin-top:56px; color:var(--muted); font-size:13px; font-family:"JetBrains Mono",monospace; }
+  footer a { color:var(--muted); }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="kicker">Aether Seismic</div>
+    <h1>Seismic Intelligence OS</h1>
+    <p class="sub">A subsurface command center — analytics, live fault inference, prospect intelligence, and geological reporting. Pick a screen to open it.</p>
+
+    <div class="grid">
+      <a class="card" href="seismic_analytics_dashboard/code.html">
+        <div class="num">01</div><h2>Analytics Dashboard</h2>
+        <p>Survey-wide KPIs, fault-density trends, and volume health at a glance.</p>
+        <span class="tag">dashboard</span>
+      </a>
+      <a class="card" href="live_inference_aether_seismic/code.html">
+        <div class="num">02</div><h2>Live Inference</h2>
+        <p>Run fault detection on a volume with a real-time overlay and confidence.</p>
+        <span class="tag">inference</span>
+      </a>
+      <a class="card" href="prospect_intelligence_ai/code.html">
+        <div class="num">03</div><h2>Prospect Intelligence AI</h2>
+        <p>AI-ranked prospects with scoring, risk, and recommended next steps.</p>
+        <span class="tag">prospecting</span>
+      </a>
+      <a class="card" href="geological_report_viewer/code.html">
+        <div class="num">04</div><h2>Geological Report Viewer</h2>
+        <p>Structured, shareable geological reports generated from the analysis.</p>
+        <span class="tag">reports</span>
+      </a>
+      <a class="card" href="three.js/code.html">
+        <div class="num">EX</div><h2>3D Experiment</h2>
+        <p>WebGL / three.js subsurface visual study.</p>
+        <span class="tag">webgl</span>
+      </a>
+      <a class="card" href="shader/code.html">
+        <div class="num">EX</div><h2>Shader Study</h2>
+        <p>Animated GLSL shader background used across the OS.</p>
+        <span class="tag">shader</span>
+      </a>
+    </div>
+
+    <footer>Aether Seismic · Intelligence OS · built with Google Stitch · <a href="DESIGN.md">design system</a></footer>
+  </main>
+</body>
+</html>

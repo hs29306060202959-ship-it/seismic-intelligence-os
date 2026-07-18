@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aether Seismic - Geological Reports</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary": "#003918",
+                    "on-secondary-container": "#ffd2cc",
+                    "surface-container-highest": "#2e372e",
+                    "surface-container-low": "#151e16",
+                    "primary-fixed": "#62ff96",
+                    "on-error-container": "#ffdad6",
+                    "on-background": "#dbe5d9",
+                    "secondary-container": "#c5020b",
+                    "surface-tint": "#00e475",
+                    "error": "#ffb4ab",
+                    "inverse-primary": "#006d35",
+                    "surface-bright": "#323c33",
+                    "on-secondary-fixed-variant": "#930005",
+                    "surface": "#0d150e",
+                    "outline-variant": "#3b4a3d",
+                    "on-secondary-fixed": "#410001",
+                    "on-tertiary": "#4b2800",
+                    "on-primary-fixed": "#00210b",
+                    "inverse-surface": "#dbe5d9",
+                    "on-surface": "#dbe5d9",
+                    "error-container": "#93000a",
+                    "on-surface-variant": "#bacbb9",
+                    "tertiary-container": "#ffba79",
+                    "secondary-fixed-dim": "#ffb4aa",
+                    "surface-container-lowest": "#081009",
+                    "background": "#0d150e",
+                    "on-primary-fixed-variant": "#005226",
+                    "on-secondary": "#690003",
+                    "surface-container": "#19221a",
+                    "on-error": "#690005",
+                    "tertiary": "#ffdec4",
+                    "inverse-on-surface": "#29332a",
+                    "secondary": "#ffb4aa",
+                    "secondary-fixed": "#ffdad5",
+                    "tertiary-fixed": "#ffdcbf",
+                    "on-tertiary-fixed": "#2d1600",
+                    "surface-container-high": "#232c24",
+                    "primary-container": "#00e676",
+                    "on-tertiary-container": "#794810",
+                    "outline": "#859585",
+                    "on-primary-container": "#00612e",
+                    "on-tertiary-fixed-variant": "#6a3c03",
+                    "surface-dim": "#0d150e",
+                    "primary": "#75ff9e",
+                    "surface-variant": "#2e372e",
+                    "primary-fixed-dim": "#00e475",
+                    "tertiary-fixed-dim": "#fdb878"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "component-gap": "16px",
+                    "grid-margin": "32px",
+                    "panel-width-side": "320px",
+                    "container-padding": "24px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "label-caps": [
+                            "JetBrains Mono"
+                    ],
+                    "headline-lg": [
+                            "Geist"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "code-sm": [
+                            "JetBrains Mono"
+                    ],
+                    "display-xl": [
+                            "Geist"
+                    ],
+                    "headline-md": [
+                            "Geist"
+                    ]
+            },
+            "fontSize": {
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "0.1em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "code-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.4",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "display-xl": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.1",
+                                    "letterSpacing": "-0.04em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+            background-color: theme('colors.background');
+        }
+        /* Custom scrollbar for viewer */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant');
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline');
+        }
+    </style>
+</head>
+<body class="text-on-background h-screen overflow-hidden flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-grid-margin py-unit h-16 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 flex-shrink-0 z-50">
+<div class="flex items-center gap-8">
+<h1 class="font-display-xl text-headline-md font-bold tracking-tighter text-primary-fixed">
+                AETHER SEISMIC
+            </h1>
+<nav class="hidden md:flex gap-6">
+<!-- Navigation Links -->
+<a class="flex items-center gap-2 text-on-surface-variant font-medium hover:text-primary-fixed transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">explore</span>
+                    Explorer
+                </a>
+<a class="flex items-center gap-2 text-on-surface-variant font-medium hover:text-primary-fixed transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">architecture</span>
+                    Architecture
+                </a>
+<a class="flex items-center gap-2 text-on-surface-variant font-medium hover:text-primary-fixed transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">rocket_launch</span>
+                    Mission Control
+                </a>
+<a class="flex items-center gap-2 text-on-surface-variant font-medium hover:text-primary-fixed transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[18px]">analytics</span>
+                    Inference
+                </a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant/50 flex items-center justify-center text-xs font-bold text-primary-fixed">
+                AS
+            </div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-16 h-[calc(100vh-64px)] flex flex-col items-center py-component-gap bg-surface-container-low/60 dark:bg-surface-container-low/60 backdrop-blur-2xl w-[100px] border-r border-outline-variant/20 z-40 flex-shrink-0">
+<div class="flex-1 w-full flex flex-col gap-2 px-2 mt-4">
+<a class="flex flex-col items-center justify-center gap-1 p-3 rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">grid_view</span>
+<span class="font-label-caps text-[10px] opacity-80">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 p-3 rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">database</span>
+<span class="font-label-caps text-[10px] opacity-80">Data</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 p-3 rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">layers</span>
+<span class="font-label-caps text-[10px] opacity-80">Models</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 p-3 rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">precision_manufacturing</span>
+<span class="font-label-caps text-[10px] opacity-80">Inference</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 p-3 rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-all group" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">insights</span>
+<span class="font-label-caps text-[10px] opacity-80">Prospecting</span>
+</a>
+<!-- Active Item: Reports -->
+<a class="flex flex-col items-center justify-center gap-1 p-3 rounded-xl bg-primary-container/20 text-primary-fixed border-l-4 border-primary shadow-[0_0_15px_rgba(0,228,117,0.3)] scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[24px] drop-shadow-[0_0_8px_rgba(0,228,117,0.8)]" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-label-caps text-[10px] text-primary-fixed">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 p-3 rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-all group mt-auto" href="#">
+<span class="material-symbols-outlined text-[24px] group-hover:scale-110 transition-transform">settings</span>
+<span class="font-label-caps text-[10px] opacity-80">Settings</span>
+</a>
+</div>
+<div class="w-full px-2 mt-4 pt-4 border-t border-outline-variant/20">
+<button class="w-full flex flex-col items-center justify-center gap-1 p-3 rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-all">
+<span class="material-symbols-outlined text-[20px]">keyboard_double_arrow_left</span>
+<span class="font-label-caps text-[10px] opacity-80">Collapse</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Area (Layout: Fixed-Side-Fluid-Center) -->
+<main class="ml-[100px] flex w-full h-full bg-surface">
+<!-- Report Sidebar (List) -->
+<aside class="w-panel-width-side flex-shrink-0 border-r border-outline-variant/30 bg-surface-container-lowest flex flex-col">
+<!-- Header -->
+<div class="p-container-padding border-b border-outline-variant/20 bg-surface-container-low/50 backdrop-blur-md">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-4">Geological Reports</h2>
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="w-full bg-surface-container border border-outline-variant/50 rounded-lg py-2 pl-9 pr-3 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary-fixed/50 focus:ring-1 focus:ring-primary-fixed/50 transition-all font-body-md" placeholder="Search reports..." type="text"/>
+</div>
+</div>
+<!-- List Items -->
+<div class="flex-1 overflow-y-auto p-4 flex flex-col gap-2">
+<!-- Active Item -->
+<button class="w-full text-left p-4 rounded-xl bg-surface-container-high border border-primary-fixed/30 shadow-[0_0_20px_rgba(0,228,117,0.05)] flex flex-col gap-2 group transition-all">
+<div class="flex justify-between items-start w-full">
+<span class="font-label-caps text-label-caps text-primary-fixed">Active Viewer</span>
+<span class="text-[10px] text-on-surface-variant/70 font-code-sm">Oct 24</span>
+</div>
+<h3 class="font-body-md font-medium text-on-surface line-clamp-2">Fault Mapping Report - Area 4</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] text-primary-fixed font-medium">Final</span>
+<span class="text-[10px] text-on-surface-variant font-code-sm">ID: RP-892</span>
+</div>
+</button>
+<!-- Inactive Items -->
+<button class="w-full text-left p-4 rounded-xl bg-surface border border-outline-variant/10 hover:border-outline-variant/30 hover:bg-surface-container transition-all flex flex-col gap-2 group">
+<div class="flex justify-between items-start w-full">
+<span class="font-label-caps text-label-caps text-on-surface-variant group-hover:text-on-surface transition-colors">Basin Analysis</span>
+<span class="text-[10px] text-on-surface-variant/70 font-code-sm">Oct 12</span>
+</div>
+<h3 class="font-body-md font-medium text-on-surface-variant group-hover:text-on-surface line-clamp-2 transition-colors">Q3 Permian Basin Structural Overview</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest border border-outline-variant/30 text-[10px] text-on-surface-variant font-medium">Draft</span>
+<span class="text-[10px] text-on-surface-variant/50 font-code-sm">ID: RP-889</span>
+</div>
+</button>
+<button class="w-full text-left p-4 rounded-xl bg-surface border border-outline-variant/10 hover:border-outline-variant/30 hover:bg-surface-container transition-all flex flex-col gap-2 group">
+<div class="flex justify-between items-start w-full">
+<span class="font-label-caps text-label-caps text-on-surface-variant group-hover:text-on-surface transition-colors">Stratigraphy</span>
+<span class="text-[10px] text-on-surface-variant/70 font-code-sm">Sep 28</span>
+</div>
+<h3 class="font-body-md font-medium text-on-surface-variant group-hover:text-on-surface line-clamp-2 transition-colors">Deepwater Horizon Coring Results</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] text-primary-fixed font-medium">Final</span>
+<span class="text-[10px] text-on-surface-variant/50 font-code-sm">ID: RP-875</span>
+</div>
+</button>
+<button class="w-full text-left p-4 rounded-xl bg-surface border border-outline-variant/10 hover:border-outline-variant/30 hover:bg-surface-container transition-all flex flex-col gap-2 group">
+<div class="flex justify-between items-start w-full">
+<span class="font-label-caps text-label-caps text-on-surface-variant group-hover:text-on-surface transition-colors">Anomaly Detection</span>
+<span class="text-[10px] text-on-surface-variant/70 font-code-sm">Sep 15</span>
+</div>
+<h3 class="font-body-md font-medium text-on-surface-variant group-hover:text-on-surface line-clamp-2 transition-colors">Seismic Amplitude Anomalies Block B</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/20 border border-secondary/30 text-[10px] text-secondary font-medium">Review</span>
+<span class="text-[10px] text-on-surface-variant/50 font-code-sm">ID: RP-862</span>
+</div>
+</button>
+</div>
+</aside>
+<!-- Main Document Viewer -->
+<section class="flex-1 flex flex-col relative bg-surface-dim">
+<!-- Viewer Action Bar (Glassmorphic) -->
+<div class="absolute top-4 right-6 z-10 flex gap-2">
+<div class="bg-surface-container-low/80 backdrop-blur-xl border border-outline-variant/30 p-1.5 rounded-lg flex items-center gap-1 shadow-lg">
+<button class="p-2 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary-fixed transition-colors flex items-center gap-2 text-sm" title="Annotate">
+<span class="material-symbols-outlined text-[18px]">draw</span>
+<span class="hidden xl:inline font-medium">Annotate</span>
+</button>
+<div class="w-[1px] h-4 bg-outline-variant/50 mx-1"></div>
+<button class="p-2 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary-fixed transition-colors flex items-center gap-2 text-sm" title="Share">
+<span class="material-symbols-outlined text-[18px]">share</span>
+<span class="hidden xl:inline font-medium">Share</span>
+</button>
+<button class="p-2 rounded hover:bg-surface-container text-on-surface-variant hover:text-primary-fixed transition-colors flex items-center gap-2 text-sm" title="Export PDF">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+<span class="hidden xl:inline font-medium">Export</span>
+</button>
+</div>
+</div>
+<!-- Document Canvas -->
+<div class="flex-1 overflow-y-auto w-full flex justify-center py-12 px-6">
+<!-- Markdown styling container, max-width for readability -->
+<article class="w-full max-w-4xl bg-surface border border-outline-variant/20 rounded-2xl shadow-2xl p-8 md:p-16 flex flex-col gap-8">
+<!-- Doc Header -->
+<header class="border-b border-outline-variant/30 pb-8">
+<div class="flex items-center gap-3 mb-6">
+<span class="px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-xs text-primary-fixed font-bold tracking-wider uppercase font-label-caps">Final Report</span>
+<span class="text-on-surface-variant font-code-sm text-sm">ID: RP-892</span>
+</div>
+<h1 class="font-headline-lg text-4xl text-on-surface font-bold leading-tight mb-4">
+                                Fault Mapping &amp; Structural Analysis - Area 4
+                            </h1>
+<div class="flex flex-wrap gap-6 text-sm text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">person</span>
+<span>Dr. E. Vance, Lead Geophysicist</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span>October 24, 2023</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">folder</span>
+<span>Project Aether // Sub-Block 4A</span>
+</div>
+</div>
+</header>
+<!-- Doc Body -->
+<div class="prose prose-invert max-w-none font-body-md text-on-surface-variant leading-relaxed space-y-6">
+<p class="text-lg text-on-surface leading-loose">
+                                This report details the comprehensive fault mapping and structural interpretation conducted on the recently acquired 3D seismic volume covering Area 4. Utilizing the latest iteration of the Aether Seismic AI inference engine, we have identified several critical structural features that significantly impact the prospectivity of the deeper target horizons.
+                            </p>
+<h2 class="font-headline-md text-2xl text-on-surface font-semibold mt-10 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed">troubleshoot</span>
+                                1. AI Inference Methodology
+                            </h2>
+<p>
+                                Initial raw seismic data was pre-conditioned using standard noise attenuation workflows. Subsequently, the <code>v3.4-fault-net</code> model was deployed to generate probability volumes for fault likelihood. The threshold was set to a rigorous <strong>0.85</strong> to minimize false positives in the structurally complex northern sector.
+                            </p>
+<!-- Embedded Chart / Figure -->
+<figure class="my-8 rounded-xl overflow-hidden border border-outline-variant/30 bg-surface-container p-2">
+<div class="relative w-full h-80 bg-surface-container-low rounded-lg overflow-hidden group">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300" data-alt="A highly detailed, futuristic UI component showing a 3D geological seismic volume with glowing cyan fault lines intersecting dark gray layered rock formations. The aesthetic is dark mode, scientific, with precise digital grid overlays and high-contrast neon accents representing data anomalies." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkD9W5XVf-zBzR721RZcrrGPsjnNe7PQ_el7csvhAKVgm0xpRW855lT1djUrEYDVav-hcuGrZfKlR6ErI8v5tdTAd0JX1jCEn5mSprqOPnJxd36K4AgXOWwaF5m52HEVPGII5Wa3GOOaJDRF2PS8u-lRzE4dQpecF2hWviy7s0atCR2qLHTv4R09_2IVfJc-u_d1HZGvgee7ibnGFTJamiH_IUl9V7U6w9Cwi2IIN_M5jN33UoT1rKEQ"/>
+<!-- Hover Overlay for Image -->
+<div class="absolute inset-0 bg-surface/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm gap-4">
+<button class="bg-surface p-3 rounded-full border border-outline-variant hover:border-primary-fixed hover:text-primary-fixed transition-colors shadow-lg">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+<button class="bg-surface p-3 rounded-full border border-outline-variant hover:border-primary-fixed hover:text-primary-fixed transition-colors shadow-lg">
+<span class="material-symbols-outlined">open_in_new</span>
+</button>
+</div>
+</div>
+<figcaption class="mt-3 text-sm text-center text-on-surface-variant font-code-sm">
+                                    Figure 1: Volumetric rendering of AI-extracted fault network (Cyan) overlaid on amplitude data. Note the complex conjugate faulting in the NE quadrant.
+                                </figcaption>
+</figure>
+<h2 class="font-headline-md text-2xl text-on-surface font-semibold mt-10 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed">layers</span>
+                                2. Structural Observations
+                            </h2>
+<ul class="list-disc pl-6 space-y-3 marker:text-primary-fixed">
+<li><strong>Main Bounding Fault (F1):</strong> A large-scale, deep-rooted normal fault striking NW-SE. Displacement exceeds 150ms TWT at the primary reservoir level.</li>
+<li><strong>Synthetic Relays:</strong> The F1 fault exhibits two major relay ramps, providing potential cross-fault migration pathways or structural traps depending on shale smearing factors.</li>
+<li><strong>Crestal Collapse Features:</strong> Above the main structural high, intense polygonal faulting is observed in the shallower overburden, indicative of fluid expulsion and differential compaction.</li>
+</ul>
+<blockquote class="border-l-4 border-primary-fixed pl-6 py-2 my-8 bg-primary/5 rounded-r-lg italic text-on-surface text-lg">
+                                "The integration of AI-derived fault probabilities with manual QC has increased our confidence in the trap integrity of Prospect Alpha by 40%."
+                            </blockquote>
+<!-- Data Table -->
+<div class="my-8 overflow-x-auto rounded-lg border border-outline-variant/30">
+<table class="w-full text-sm text-left">
+<thead class="text-xs text-on-surface font-label-caps uppercase bg-surface-container-high">
+<tr>
+<th class="px-6 py-4" scope="col">Fault ID</th>
+<th class="px-6 py-4" scope="col">Strike / Dip</th>
+<th class="px-6 py-4" scope="col">Max Throw (ms)</th>
+<th class="px-6 py-4" scope="col">Seal Risk</th>
+</tr>
+</thead>
+<tbody class="font-code-sm text-on-surface-variant divide-y divide-outline-variant/20">
+<tr class="bg-surface-container hover:bg-surface-container-high transition-colors">
+<td class="px-6 py-4 font-medium text-primary-fixed">F1_Main</td>
+<td class="px-6 py-4">320° / 65° NE</td>
+<td class="px-6 py-4">185</td>
+<td class="px-6 py-4 text-primary">Low</td>
+</tr>
+<tr class="bg-surface-container hover:bg-surface-container-high transition-colors">
+<td class="px-6 py-4 font-medium text-primary-fixed">F2_Antithetic</td>
+<td class="px-6 py-4">145° / 55° SW</td>
+<td class="px-6 py-4">45</td>
+<td class="px-6 py-4 text-secondary">High</td>
+</tr>
+<tr class="bg-surface-container hover:bg-surface-container-high transition-colors">
+<td class="px-6 py-4 font-medium text-primary-fixed">F3_Relay</td>
+<td class="px-6 py-4">315° / 70° NE</td>
+<td class="px-6 py-4">80</td>
+<td class="px-6 py-4 text-tertiary-fixed">Moderate</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>
+                                Further analysis is recommended on the F2 antithetic fault to determine its sealing capacity, as it dissects the western limb of the primary closure.
+                            </p>
+</div>
+<!-- Doc Footer -->
+<footer class="mt-12 pt-8 border-t border-outline-variant/30 flex justify-between items-center text-sm text-on-surface-variant">
+<span>Confidential - Aether Seismic Internal</span>
+<span>Page 1 of 12</span>
+</footer>
+</article>
+</div>
+</section>
+</main>
+</div>
+</body></html>

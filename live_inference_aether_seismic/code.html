@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Live Inference | Aether Seismic</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#003918",
+                        "on-secondary-container": "#ffd2cc",
+                        "surface-container-highest": "#2e372e",
+                        "surface-container-low": "#151e16",
+                        "primary-fixed": "#62ff96",
+                        "on-error-container": "#ffdad6",
+                        "on-background": "#dbe5d9",
+                        "secondary-container": "#c5020b",
+                        "surface-tint": "#00e475",
+                        "error": "#ffb4ab",
+                        "inverse-primary": "#006d35",
+                        "surface-bright": "#323c33",
+                        "on-secondary-fixed-variant": "#930005",
+                        "surface": "#0d150e",
+                        "outline-variant": "#3b4a3d",
+                        "on-secondary-fixed": "#410001",
+                        "on-tertiary": "#4b2800",
+                        "on-primary-fixed": "#00210b",
+                        "inverse-surface": "#dbe5d9",
+                        "on-surface": "#dbe5d9",
+                        "error-container": "#93000a",
+                        "on-surface-variant": "#bacbb9",
+                        "tertiary-container": "#ffba79",
+                        "secondary-fixed-dim": "#ffb4aa",
+                        "surface-container-lowest": "#081009",
+                        "background": "#0d150e",
+                        "on-primary-fixed-variant": "#005226",
+                        "on-secondary": "#690003",
+                        "surface-container": "#19221a",
+                        "on-error": "#690005",
+                        "tertiary": "#ffdec4",
+                        "inverse-on-surface": "#29332a",
+                        "secondary": "#ffb4aa",
+                        "secondary-fixed": "#ffdad5",
+                        "tertiary-fixed": "#ffdcbf",
+                        "on-tertiary-fixed": "#2d1600",
+                        "surface-container-high": "#232c24",
+                        "primary-container": "#00e676",
+                        "on-tertiary-container": "#794810",
+                        "outline": "#859585",
+                        "on-primary-container": "#00612e",
+                        "on-tertiary-fixed-variant": "#6a3c03",
+                        "surface-dim": "#0d150e",
+                        "primary": "#75ff9e",
+                        "surface-variant": "#2e372e",
+                        "primary-fixed-dim": "#00e475",
+                        "tertiary-fixed-dim": "#fdb878"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "component-gap": "16px",
+                        "grid-margin": "32px",
+                        "panel-width-side": "320px",
+                        "container-padding": "24px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Inter"],
+                        "code-sm": ["JetBrains Mono"],
+                        "display-xl": ["Geist"],
+                        "headline-md": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "code-sm": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "display-xl": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "headline-md": ["20px", { "lineHeight": "1.3", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel {
+            background: rgba(21, 30, 22, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-active {
+            box-shadow: 0 0 15px rgba(0, 228, 117, 0.3);
+        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen w-screen overflow-hidden flex flex-col antialiased">
+<!-- Global Background Shader -->
+<!-- STITCH_SHADER_START:ANIMATION_3 class="absolute inset-0 w-full h-full -z-10" -->
+<div class="absolute inset-0 w-full h-full -z-10" style="display:block;">
+<canvas id="shader-canvas-ANIMATION_3" style="display:block;width:100%;height:100%"></canvas>
+<script>
+(function() {
+  const canvas = document.getElementById('shader-canvas-ANIMATION_3');
+
+  // Sync the WebGL drawing-buffer size with the CSS-driven layout size.
+  // This fires on initial layout and whenever the element is resized.
+  function syncSize() {
+    const w = canvas.clientWidth  || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width  = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+varying vec2 v_texCoord;
+
+// Simplex 2D noise
+vec3 permute(vec3 x) { return mod(((x*34.0)+1.0)*x, 289.0); }
+float snoise(vec2 v){
+  const vec4 C = vec4(0.211324865405187, 0.366025403784439,
+           -0.577350269189626, 0.024390243902439);
+  vec2 i  = floor(v + dot(v, C.yy) );
+  vec2 x0 = v -   i + dot(i, C.xx);
+  vec2 i1;
+  i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+  vec4 x12 = x0.xyxy + C.xxzz;
+  x12.xy -= i1;
+  i = mod(i, 289.0);
+  vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
+  + i.x + vec3(0.0, i1.x, 1.0 ));
+  vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy),
+    dot(x12.zw,x12.zw)), 0.0);
+  m = m*m ;
+  m = m*m ;
+  vec3 x = 2.0 * fract(p * C.www) - 1.0;
+  vec3 h = abs(x) - 0.5;
+  vec3 a0 = x - floor(x + 0.5);
+  m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );
+  vec3 g;
+  g.x  = a0.x  * x0.x  + h.x  * x0.y;
+  g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+  return 130.0 * dot(m, g);
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    vec2 st = uv * 2.0 - 1.0;
+    st.x *= u_resolution.x/u_resolution.y;
+
+    float n = snoise(uv * 3.0 + u_time * 0.1);
+    float n2 = snoise(uv * 6.0 - u_time * 0.2);
+    
+    // Dark Navy Gradient
+    vec3 color1 = vec3(0.03, 0.05, 0.08); // Deep Navy
+    vec3 color2 = vec3(0.05, 0.1, 0.15); // Lighter Navy
+    
+    vec3 finalColor = mix(color1, color2, uv.y + n * 0.1);
+    
+    // Subtle "Seismic" scan line
+    float scanline = smoothstep(0.48, 0.5, abs(fract(uv.y * 10.0 - u_time * 0.2) - 0.5));
+    finalColor += vec3(0.0, 0.1, 0.15) * scanline * 0.2;
+
+    // Ambient glow from mouse
+    float dist = distance(uv, u_mouse / u_resolution);
+    finalColor += vec3(0.0, 0.3, 0.4) * (1.0 - smoothstep(0.0, 0.5, dist)) * 0.15;
+
+    gl_FragColor = vec4(finalColor, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  // u_mouse is in pixel coordinates matching u_resolution (ShaderToy convention).
+  // Shaders that need normalized coords should use: u_mouse / u_resolution.
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  render(0);
+})();
+</script>
+</div>
+<!-- STITCH_SHADER_END:ANIMATION_3 -->
+<div class="absolute inset-0 bg-background/80 -z-10 backdrop-blur-[2px]"></div>
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-grid-margin py-unit h-16 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-outline-variant/30 flex-shrink-0 z-50 fixed top-0 left-0 right-0">
+<div class="flex items-center gap-8">
+<div class="font-display-xl text-headline-md font-bold tracking-tighter text-primary-fixed whitespace-nowrap">AETHER SEISMIC</div>
+<nav class="hidden md:flex gap-6 items-center h-full">
+<a class="text-on-surface-variant font-medium hover:text-primary-fixed transition-colors flex items-center gap-2 text-body-md h-full py-4" href="#"><span class="material-symbols-outlined text-[18px]">explore</span> Explorer</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-fixed transition-colors flex items-center gap-2 text-body-md h-full py-4" href="#"><span class="material-symbols-outlined text-[18px]">architecture</span> Architecture</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-fixed transition-colors flex items-center gap-2 text-body-md h-full py-4" href="#"><span class="material-symbols-outlined text-[18px]">rocket_launch</span> Mission Control</a>
+<a class="text-primary-fixed border-b-2 border-primary-fixed pb-1 hover:text-primary-fixed transition-colors flex items-center gap-2 text-body-md h-full py-4 opacity-80 transition-all" href="#"><span class="material-symbols-outlined text-[18px]">precision_manufacturing</span> Inference</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="bg-surface-container-high border-outline-variant/50 text-on-surface rounded-full pl-10 pr-4 py-1.5 text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all w-64 placeholder:text-on-surface-variant/50" placeholder="Search datasets..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-primary-fixed transition-colors w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high"><span class="material-symbols-outlined">notifications</span></button>
+<button class="text-on-surface-variant hover:text-primary-fixed transition-colors w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high"><span class="material-symbols-outlined">settings</span></button>
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-body-md ml-2 border border-primary-fixed/30 cursor-pointer">AS</div>
+</div>
+</header>
+<div class="flex flex-1 mt-16 h-[calc(100vh-64px)] overflow-hidden relative z-10">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] flex flex-col items-center py-component-gap bg-surface-container-low/60 dark:bg-surface-container-low/60 backdrop-blur-2xl w-[100px] border-r border-outline-variant/20 flex-shrink-0 z-40 justify-between">
+<div class="flex flex-col gap-2 w-full px-2">
+<a class="flex flex-col items-center justify-center gap-1 w-full aspect-square rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">grid_view</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-full aspect-square rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">database</span>
+<span class="font-label-caps text-label-caps">Data</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-full aspect-square rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">layers</span>
+<span class="font-label-caps text-label-caps">Models</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-full aspect-square rounded-xl bg-primary-container/20 text-primary-fixed border-l-4 border-primary shadow-[0_0_15px_rgba(0,228,117,0.3)] scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined text-[24px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+<span class="font-label-caps text-label-caps">Inference</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-full aspect-square rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">insights</span>
+<span class="font-label-caps text-label-caps">Prospecting</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-full aspect-square rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">description</span>
+<span class="font-label-caps text-label-caps">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 w-full aspect-square rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-colors mt-4" href="#">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</div>
+<div class="px-2 w-full pb-4">
+<a class="flex flex-col items-center justify-center gap-1 w-full aspect-square rounded-xl text-on-surface-variant/70 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">keyboard_double_arrow_left</span>
+<span class="font-label-caps text-label-caps">Collapse</span>
+</a>
+</div>
+</aside>
+<!-- Main Workspace (Workbench Layout) -->
+<main class="flex-1 ml-[100px] p-grid-margin flex gap-grid-margin relative">
+<!-- Left Control Panel -->
+<div class="w-panel-width-side flex flex-col gap-component-gap h-full overflow-y-auto scrollbar-hide shrink-0">
+<!-- Live Inference Card -->
+<div class="glass-panel rounded-xl p-container-padding flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<h2 class="font-headline-lg text-headline-lg text-on-surface flex items-center gap-2">
+                            Live Inference
+                            <span class="flex items-center gap-1 bg-surface-container-highest px-2 py-0.5 rounded-full border border-primary-fixed/20">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-fixed animate-pulse"></span>
+<span class="font-label-caps text-[9px] text-primary-fixed uppercase">Live</span>
+</span>
+</h2>
+<span class="font-code-sm text-code-sm text-primary-fixed">6,978 voxels</span>
+</div>
+<!-- Dropzone -->
+<div class="border-2 border-dashed border-outline-variant/50 rounded-lg p-6 flex flex-col items-center justify-center gap-2 bg-surface-container-lowest/30 hover:border-primary/50 transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors text-[32px]">note_add</span>
+<div class="text-center">
+<p class="font-body-md text-body-md text-on-surface font-medium">Drop SEG-Y / NPY / NPZ</p>
+<p class="font-code-sm text-code-sm text-on-surface-variant">or click to browse</p>
+</div>
+</div>
+<!-- Active File Info -->
+<div class="flex justify-between items-start mt-2">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-semibold">100.npy</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Shape 128×128×128 · float32</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">8.39 MB · ~2.6s</span>
+</div>
+<span class="font-code-sm text-code-sm text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check</span> Loaded</span>
+</div>
+<!-- Probability Threshold Slider -->
+<div class="flex flex-col gap-2 mt-4">
+<div class="flex justify-between items-center">
+<label class="font-label-caps text-label-caps text-on-surface-variant">PROBABILITY THRESHOLD</label>
+<span class="font-code-sm text-code-sm text-primary-fixed">0.65</span>
+</div>
+<div class="relative h-1 bg-surface-container-highest rounded-full w-full">
+<div class="absolute h-full bg-primary-fixed rounded-full w-[65%] glow-active"></div>
+<div class="absolute h-3 w-3 bg-surface rounded-full border-2 border-primary-fixed -top-1 left-[65%] -translate-x-1/2 cursor-grab"></div>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex gap-2 mt-2">
+<button class="flex-1 bg-gradient-to-r from-primary-container to-primary text-on-primary-container font-headline-md text-[14px] py-2 rounded-lg font-bold flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,230,118,0.2)] hover:shadow-[0_0_25px_rgba(0,230,118,0.4)] transition-all">
+<span class="material-symbols-outlined text-[18px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">play_arrow</span> RUN PREDICTION
+                        </button>
+<button class="flex-1 bg-surface-container-high border border-outline-variant/30 text-on-surface font-headline-md text-[14px] py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">visibility</span> DEMO MODE
+                        </button>
+</div>
+<div class="flex items-center gap-2 text-primary font-code-sm text-code-sm mt-1">
+<span class="material-symbols-outlined text-[16px]">check_circle</span> Status: Complete
+                    </div>
+</div>
+<!-- Ground Truth F1 Card -->
+<div class="glass-panel rounded-xl p-4 flex flex-col gap-2 border-l-2 border-l-primary relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent z-0"></div>
+<div class="relative z-10">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant">GROUND-TRUTH F1</h3>
+<div class="font-display-xl text-[40px] font-bold text-primary-fixed leading-none mt-1">0.815</div>
+</div>
+<!-- Minimal Sparkline Placeholder -->
+<svg class="w-full h-8 mt-2 relative z-10" preserveaspectratio="none" viewbox="0 0 100 20">
+<path class="text-primary-fixed" d="M0,15 Q10,5 20,10 T40,15 T60,5 T80,18 T100,8" fill="none" opacity="0.6" stroke="currentColor" stroke-width="1.5"></path>
+<path class="text-primary-fixed" d="M0,15 Q10,5 20,10 T40,15 T60,5 T80,18 T100,8 L100,20 L0,20 Z" fill="currentColor" opacity="0.1"></path>
+</svg>
+</div>
+<!-- Product Files -->
+<div class="glass-panel rounded-xl p-container-padding flex flex-col gap-4 flex-1">
+<h3 class="font-headline-md text-[18px] text-on-surface font-semibold">Product Files</h3>
+<div class="flex flex-col gap-2 overflow-y-auto scrollbar-hide pr-2">
+<!-- File Row 1 -->
+<div class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container-high transition-colors group cursor-pointer border border-transparent hover:border-outline-variant/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed">deployed_code</span>
+<span class="font-body-md text-code-sm text-on-surface">Probability.npy</span>
+</div>
+<button class="text-on-surface-variant group-hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined text-[20px]">download</span></button>
+</div>
+<!-- File Row 2 -->
+<div class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container-high transition-colors group cursor-pointer border border-transparent hover:border-outline-variant/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary-fixed-dim">category</span>
+<span class="font-body-md text-code-sm text-on-surface">Mask.npy</span>
+</div>
+<button class="text-on-surface-variant group-hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined text-[20px]">download</span></button>
+</div>
+<!-- File Row 3 -->
+<div class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container-high transition-colors group cursor-pointer border border-transparent hover:border-outline-variant/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed">image</span>
+<span class="font-body-md text-code-sm text-on-surface">Overlay.png</span>
+</div>
+<button class="text-on-surface-variant group-hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined text-[20px]">download</span></button>
+</div>
+<!-- File Row 4 -->
+<div class="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container-high transition-colors group cursor-pointer border border-transparent hover:border-outline-variant/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">data_object</span>
+<span class="font-body-md text-code-sm text-on-surface">Stats.json</span>
+</div>
+<button class="text-on-surface-variant group-hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined text-[20px]">download</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Central Volumetric Viewer & Result Tabs -->
+<div class="flex-1 flex flex-col h-full relative">
+<!-- Result View Tabs -->
+<div class="absolute top-0 left-0 right-0 flex justify-center z-20 pointer-events-none pt-4">
+<div class="glass-panel rounded-full px-2 py-1 flex gap-1 pointer-events-auto shadow-lg shadow-black/50">
+<button class="px-4 py-1.5 rounded-full text-code-sm font-code-sm font-semibold text-on-surface hover:bg-surface-container-high transition-colors">Ground Truth</button>
+<button class="px-4 py-1.5 rounded-full text-code-sm font-code-sm font-semibold bg-primary-fixed/20 text-primary-fixed border border-primary-fixed/30 transition-colors shadow-[0_0_10px_rgba(0,228,117,0.2)]">Prediction</button>
+<button class="px-4 py-1.5 rounded-full text-code-sm font-code-sm font-semibold text-on-surface hover:bg-surface-container-high transition-colors">Overlay</button>
+<button class="px-4 py-1.5 rounded-full text-code-sm font-code-sm font-semibold text-on-surface hover:bg-surface-container-high transition-colors">Difference</button>
+</div>
+</div>
+<!-- 3D Volumetric Area -->
+<div class="flex-1 rounded-2xl border border-outline-variant/30 overflow-hidden relative shadow-2xl bg-black/40 group backdrop-blur-sm">
+<!-- STITCH_THREEJS_START:ANIMATION_4 class="absolute inset-0 w-full h-full" -->
+<div class="absolute inset-0 w-full h-full" style="display:block;">
+<script src="https://ajax.googleapis.com/ajax/libs/threejs/r125/three.min.js"></script>
+<div id="threejs-container-ANIMATION_4" style="width:100%;height:100%"></div>
+<script>
+(function() {
+  const container = document.getElementById('threejs-container-ANIMATION_4');
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const width = container.clientWidth || window.innerWidth;
+const height = container.clientHeight || window.innerHeight;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+camera.position.set(3, 3, 5);
+camera.lookAt(0, 0, 0);
+
+const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+renderer.setSize(width, height);
+renderer.setPixelRatio(window.devicePixelRatio);
+container.appendChild(renderer.domElement);
+
+// Seismic Cube Group
+const cubeGroup = new THREE.Group();
+scene.add(cubeGroup);
+
+// Create the Volumetric "Points" Cloud for Seismic Data
+const geometry = new THREE.BoxGeometry(2, 2, 2, 20, 20, 20);
+const material = new THREE.PointsMaterial({
+    color: 0x00ffff,
+    size: 0.02,
+    transparent: true,
+    opacity: 0.6,
+    blending: THREE.AdditiveBlending
+});
+
+const points = new THREE.Points(geometry, material);
+cubeGroup.add(points);
+
+// Bounding Box
+const boxGeo = new THREE.BoxGeometry(2.05, 2.05, 2.05);
+const boxEdges = new THREE.EdgesGeometry(boxGeo);
+const boxMat = new THREE.LineBasicMaterial({ color: 0x334455, transparent: true, opacity: 0.5 });
+const boxLines = new THREE.LineSegments(boxEdges, boxMat);
+cubeGroup.add(boxLines);
+
+// Add Grid/Axes
+const gridHelper = new THREE.GridHelper(4, 10, 0x223344, 0x112233);
+gridHelper.position.y = -1.1;
+scene.add(gridHelper);
+
+// Lighting
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+scene.add(ambientLight);
+const pointLight = new THREE.PointLight(0x00e676, 1, 10);
+pointLight.position.set(2, 2, 2);
+scene.add(pointLight);
+
+// Animation Loop
+const animate = () => {
+    requestAnimationFrame(animate);
+    
+    cubeGroup.rotation.y += 0.002;
+    cubeGroup.rotation.x += 0.001;
+    
+    // Subtle pulse to points
+    points.material.opacity = 0.4 + Math.sin(Date.now() * 0.001) * 0.2;
+    
+    renderer.render(scene, camera);
+};
+
+animate();
+
+window.addEventListener('resize', () => {
+    const w = container.clientWidth || window.innerWidth;
+    const h = container.clientHeight || window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+});
+})();
+</script>
+</div>
+<!-- STITCH_THREEJS_END:ANIMATION_4 -->
+<!-- Viewport Controls (Floating) -->
+<div class="absolute bottom-4 left-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<button class="bg-surface-container/80 backdrop-blur-md p-2 rounded-lg border border-outline-variant/30 text-on-surface hover:bg-surface-container-high hover:text-primary-fixed transition-colors" title="Reset View">
+<span class="material-symbols-outlined text-[20px]">restart_alt</span>
+</button>
+<button class="bg-surface-container/80 backdrop-blur-md p-2 rounded-lg border border-outline-variant/30 text-on-surface hover:bg-surface-container-high hover:text-primary-fixed transition-colors" title="Toggle Grid">
+<span class="material-symbols-outlined text-[20px]">grid_on</span>
+</button>
+<button class="bg-surface-container/80 backdrop-blur-md p-2 rounded-lg border border-outline-variant/30 text-on-surface hover:bg-surface-container-high hover:text-primary-fixed transition-colors" title="Fullscreen">
+<span class="material-symbols-outlined text-[20px]">fullscreen</span>
+</button>
+</div>
+<!-- Viewport Stats (Top Left inside viewer) -->
+<div class="absolute top-4 left-4 glass-panel px-3 py-1.5 rounded text-code-sm font-code-sm text-on-surface-variant flex flex-col gap-1 pointer-events-none">
+<span>FPS: <span class="text-primary-fixed">60</span></span>
+<span>Render: <span class="text-on-surface">Volume Shader</span></span>
+</div>
+</div>
+</div>
+<!-- Right Panel: Controls & Copilot -->
+<div class="w-panel-width-side flex flex-col gap-component-gap h-full overflow-y-auto scrollbar-hide shrink-0">
+<!-- Slice Controls Card -->
+<div class="glass-panel rounded-xl p-container-padding flex flex-col gap-6">
+<div>
+<h3 class="font-headline-md text-[18px] text-on-surface font-semibold mb-1">Slice Controls</h3>
+<p class="font-body-md text-[12px] text-on-surface-variant">Adjust volumetric clipping planes.</p>
+</div>
+<!-- Inline Slider -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="font-label-caps text-label-caps text-on-surface">INLINE</label>
+<span class="font-code-sm text-code-sm text-primary-fixed">64</span>
+</div>
+<div class="relative h-1 bg-surface-container-highest rounded-full w-full">
+<div class="absolute h-full bg-primary-fixed rounded-full w-[50%]"></div>
+<div class="absolute h-3 w-3 bg-surface rounded-full border-2 border-primary-fixed -top-1 left-[50%] -translate-x-1/2 cursor-grab"></div>
+</div>
+</div>
+<!-- Crossline Slider -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="font-label-caps text-label-caps text-on-surface">CROSSLINE</label>
+<span class="font-code-sm text-code-sm text-primary-fixed">32</span>
+</div>
+<div class="relative h-1 bg-surface-container-highest rounded-full w-full">
+<div class="absolute h-full bg-primary-fixed rounded-full w-[25%]"></div>
+<div class="absolute h-3 w-3 bg-surface rounded-full border-2 border-primary-fixed -top-1 left-[25%] -translate-x-1/2 cursor-grab"></div>
+</div>
+</div>
+<!-- Time Slice Slider -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center">
+<label class="font-label-caps text-label-caps text-on-surface">TIME SLICE (ms)</label>
+<span class="font-code-sm text-code-sm text-primary-fixed">128</span>
+</div>
+<div class="relative h-1 bg-surface-container-highest rounded-full w-full">
+<div class="absolute h-full bg-primary-fixed rounded-full w-[80%]"></div>
+<div class="absolute h-3 w-3 bg-surface rounded-full border-2 border-primary-fixed -top-1 left-[80%] -translate-x-1/2 cursor-grab"></div>
+</div>
+</div>
+<!-- Heatmap Opacity -->
+<div class="flex flex-col gap-2 pt-2 border-t border-outline-variant/30">
+<div class="flex justify-between items-center">
+<label class="font-label-caps text-label-caps text-on-surface-variant">HEATMAP OPACITY</label>
+<span class="font-code-sm text-code-sm text-on-surface">75%</span>
+</div>
+<div class="relative h-1 bg-surface-container-highest rounded-full w-full">
+<div class="absolute h-full bg-outline rounded-full w-[75%]"></div>
+<div class="absolute h-3 w-3 bg-surface rounded-full border-2 border-outline -top-1 left-[75%] -translate-x-1/2 cursor-grab"></div>
+</div>
+</div>
+</div>
+<!-- AI Copilot (Bento Item) -->
+<div class="glass-panel rounded-xl flex flex-col flex-1 border border-primary-fixed/20 overflow-hidden relative">
+<!-- Header -->
+<div class="p-4 border-b border-outline-variant/30 flex items-center justify-between bg-primary-fixed/5">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">smart_toy</span>
+<h3 class="font-headline-md text-[16px] text-primary-fixed font-semibold">Seismic Copilot</h3>
+</div>
+<span class="w-2 h-2 rounded-full bg-primary-fixed animate-pulse"></span>
+</div>
+<!-- Chat Area -->
+<div class="flex-1 p-4 flex flex-col gap-4 overflow-y-auto scrollbar-hide text-body-md text-[13px]">
+<!-- System Message -->
+<div class="self-start max-w-[85%] bg-surface-container px-3 py-2 rounded-lg rounded-tl-none border border-outline-variant/20 text-on-surface-variant">
+                            Analysis complete. I detected 3 primary fault planes and a potential salt dome structure in the lower left quadrant.
+                        </div>
+<!-- User Message -->
+<div class="self-end max-w-[85%] bg-primary-fixed/10 border border-primary-fixed/20 px-3 py-2 rounded-lg rounded-tr-none text-on-surface">
+                            Highlight the salt dome and calculate its estimated volume.
+                        </div>
+<!-- System Message -->
+<div class="self-start max-w-[85%] bg-surface-container px-3 py-2 rounded-lg rounded-tl-none border border-outline-variant/20 text-on-surface-variant flex flex-col gap-2">
+<p>Highlighting salt dome structure.</p>
+<div class="bg-surface-container-highest p-2 rounded flex items-center justify-between font-code-sm text-code-sm">
+<span>Est. Volume:</span>
+<span class="text-primary-fixed">14.2M m³</span>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-3 border-t border-outline-variant/30 bg-surface/50">
+<div class="relative">
+<input class="w-full bg-surface-container-high border-outline-variant/50 text-on-surface rounded-lg pl-3 pr-10 py-2 text-[13px] font-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-on-surface-variant/50" placeholder="Ask Copilot about this volume..." type="text"/>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 text-primary-fixed hover:text-primary transition-colors p-1"><span class="material-symbols-outlined text-[18px]">send</span></button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
